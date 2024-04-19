@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class EscolaConfig(AppConfig):
+class ListaConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'escola'
+    name = 'lista'
