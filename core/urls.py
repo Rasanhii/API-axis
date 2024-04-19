@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from lista.views import ListaViewSet
+
 from rest_framework import routers, serializers, viewsets
 
 router = routers.DefaultRouter()
-router.register('lista', ListaViewSet, basename='Lista_produtos')
+router.register('lista', include('api_rest.urls'), name='api_rest_urls', basename='Lista_produtos')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
