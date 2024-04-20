@@ -5,4 +5,4 @@ class ListaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Produtos
-        fields = [ 'id', 'nome', 'quantidade', 'preco', 'descricao' ]
+        fields = [ 'id', 'produto', 'quantidade', 'preco', 'descricao' ]

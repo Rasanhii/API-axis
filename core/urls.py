@@ -16,13 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
 from rest_framework import routers, serializers, viewsets
 
-router = routers.DefaultRouter()
-router.register('lista', include('api_rest.urls'), name='api_rest_urls', basename='Lista_produtos')
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path("admin/", admin.site.urls),
+    path('', include('lista.urls'), name='lista'),
 ]

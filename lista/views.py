@@ -1,7 +1,6 @@
 from lista.models import Produtos
 from lista.serializer import ListaSerializer
 
-
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
@@ -9,7 +8,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+import json
 
+from . import funcoes as fn
 
 
 @api_view(['GET'])
@@ -28,10 +29,10 @@ def get_users(request):
 
 
 @api_view(['GET', 'PUT'])
-def get_by_nick(request, nick):
+def get_by_nick(request, id):
 
     try:
-        user = Produtos.objects.get(pk=nick)
+        user = Produtos.objects.get(pk=id)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -42,7 +43,7 @@ def get_by_nick(request, nick):
 
     if request.method == 'PUT':
 
-        serializer = ListaSerializer(user, data=request.data)
+        serializer = ListaSerializer(Produtos, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -53,7 +54,8 @@ def get_by_nick(request, nick):
 
 
 
-# CRUDZAO DA MASSA
+#Endpoints para o CRUD
+
 @api_view(['GET','POST','PUT','DELETE'])
 def user_manager(request):
 
@@ -61,24 +63,11 @@ def user_manager(request):
 
     if request.method == 'GET':
 
-        try:
-            if request.GET['user']:                         # Check if there is a get parameter called 'user' (/?user=xxxx&...)
+        users = Produtos.objects.all()                          # Get all objects in User's database (It returns a queryset)
 
-                user_nickname = request.GET['user']         # Find get parameter
+        serializer = ListaSerializer(users, many=True)       # Serialize the object data into json (Has a 'many' parameter cause it's a queryset)
 
-                try:
-                    user = Produtos.objects.get(pk=user_nickname)   # Get the object in database
-                except:
-                    return Response(status=status.HTTP_404_NOT_FOUND)
-
-                serializer = ListaSerializer(user)           # Serialize the object data into json
-                return Response(serializer.data)            # Return the serialized data
-
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data)                    # Return the serialized data
 
     
 
@@ -103,24 +92,20 @@ def user_manager(request):
 
     if request.method == 'PUT':
 
-        nickname = request.data['user_nickname']
+        id = request.data['id']
 
         try:
-            updated_user = Produtos.objects.get(pk=nickname)
+            updated_product = Produtos.objects.get(pk=id)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        
-        print('Resultado final ', fn.soma(1,2))
-
-        serializer = ListaSerializer(updated_user, data=request.data)
+        serializer = ListaSerializer(updated_product, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 
 
@@ -134,7 +119,3 @@ def user_manager(request):
             return Response(status=status.HTTP_202_ACCEPTED)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
