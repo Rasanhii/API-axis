@@ -1,2 +1,2 @@
 # API
-API desenvolvida em DJANGO com o DJANGO.REST
+API desenvolvida em DJANGO com o DJANGOREST
