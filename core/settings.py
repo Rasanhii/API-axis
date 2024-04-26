@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'lista',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,9 @@ REST_FRAMEWORK = {
     'SCHEMA_CLASS': 'rest_framework.schemas.core.AutoSchema',
     'SWAGGER_SCHEMA_VIEW': 'rest_framework_swagger.views.get_swagger_view',
     'SWAGGER_SETTINGS': {
-        'VERSION': '2.0'  # ou '3.0.0' ou sua versão OpenAPI específica
+        'VERSION': '2.0',  # ou '3.0.0' ou sua versão OpenAPI específica
+        'TITLE': 'API_axis',
+        'DESCRIPTION': 'API feita em django para estudos.',
+        'USE_APPEND_SLASH': False,
     },
 }
