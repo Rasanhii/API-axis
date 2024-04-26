@@ -129,8 +129,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ]
+    # Outras configurações do rest_framework
+    'SCHEMA_CLASS': 'rest_framework.schemas.core.AutoSchema',
+    'SWAGGER_SCHEMA_VIEW': 'rest_framework_swagger.views.get_swagger_view',
+    'SWAGGER_SETTINGS': {
+        'VERSION': '2.0'  # ou '3.0.0' ou sua versão OpenAPI específica
+    },
 }
